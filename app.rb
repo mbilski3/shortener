@@ -6,7 +6,7 @@ require 'redis'
 
 configure do
   uri = URI.parse(ENV['REDIS_URL'])
-  @redis = Redis.new(host: uri.host, port: uri.port, password: uri.password)
+  $redis = Redis.new(host: uri.host, port: uri.port, password: uri.password)
 end
 
 get '/' do
@@ -15,10 +15,10 @@ end
 
 post '/' do
   @rand = SecureRandom.hex(4)
-  @redis.set(@rand, params[:url])
+  $redis.set(@rand, params[:url])
   erb :result
 end
 
 get '/:rand' do
-  redirect @redis.get(@rand)
+  redirect $redis.get(@rand)
 end
