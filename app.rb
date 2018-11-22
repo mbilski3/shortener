@@ -20,5 +20,5 @@ post '/' do
 end
 
 get '/:rand' do
-  redirect $redis.get(@rand)
+  redirect $redis.get(params[:rand])
 end
